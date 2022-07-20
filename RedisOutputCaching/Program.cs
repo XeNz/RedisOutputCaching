@@ -49,7 +49,7 @@ app.MapGet("/uncache",
     async (IOutputCacheStore outputCacheStore, CancellationToken token) =>
     {
         await outputCacheStore.EvictByTagAsync("cache", token);
-        return Task.FromResult("This endpoint removes all the values for the cached endpoints that are categorised the 'cache' tag"); 
+        return Task.FromResult("This endpoint removes all the values for the cached endpoints that are categorised under the 'cache' tag"); 
     });
 
 app.Run();
