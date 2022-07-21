@@ -29,7 +29,8 @@ app.MapGet("/cache",
         async () =>
         {
             await Task.Delay(1000);
-            return Task.FromResult("This is the endpoint that gets cached for 30 seconds. It also gets categorised under the 'cache' tag");
+            return Results.Ok(
+                new CachingDescriptionResponse("This is the endpoint that gets cached for 30 seconds. It also gets categorised under the 'cache' tag"));
         })
     .CacheOutput(x => x
         .Expire(TimeSpan.FromSeconds(30))
@@ -39,7 +40,9 @@ app.MapGet("/cache2",
         async () =>
         {
             await Task.Delay(1000);
-            return Task.FromResult("This is the secondary endpoint that gets cached for 20 seconds. It also gets categorised under the 'cache' tag");
+            return Results.Ok(
+                new CachingDescriptionResponse(
+                    "This is the secondary endpoint that gets cached for 20 seconds. It also gets categorised under the 'cache' tag"));
         })
     .CacheOutput(x => x
         .Expire(TimeSpan.FromSeconds(20))
@@ -49,7 +52,8 @@ app.MapGet("/uncache",
     async (IOutputCacheStore outputCacheStore, CancellationToken token) =>
     {
         await outputCacheStore.EvictByTagAsync("cache", token);
-        return Task.FromResult("This endpoint removes all the values for the cached endpoints that are categorised under the 'cache' tag"); 
+        return Results.Ok(
+            new CachingDescriptionResponse("This endpoint removes all the values for the cached endpoints that are categorised under the 'cache' tag"));
     });
 
 app.Run();
